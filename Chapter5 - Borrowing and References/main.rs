@@ -21,6 +21,16 @@ fn main() {
     // println!("Value dari _X adalah: {}", _r); ini akan menyebabkan error karena _r adalah reference mutable, dan hanya boleh 1 reference mutable pada satu waktu.
     // jadi boleh hanya 1 mutable reference pada satu waktu, atau banyak immutable reference pada satu waktu, tapi tidak boleh keduanya.
 
+    let mut account = BankAccount{
+        owner: "Alice".to_string(),
+        balance: 150.55,
+    };
+    // Immutable borrow untk mengecek balance
+    account.check_balance();
+
+    // Mutable borrow untuk withdraw uang
+    account.withdraw(50.25);
+
 }
 
 // struct adalah data structure yang memungkinkan kita untuk mengelompokkan beberapa field menjadi satu kesatuan.
@@ -29,8 +39,14 @@ struct BankAccount {
     balance: f64,
 }
 
+// Implementasi method untuk struct BankAccount
 impl BankAccount {
-    fn withdraw() {
-        
+    fn withdraw(&mut self, amount: f64) {
+        println!("Withdrawing {} from account owned by {}", amount, self.owner);
+        self.balance -= amount;
+    }
+
+    fn check_balance(&self){
+        println!("Account owned by {} has a balance of {}", self.owner, self.balance);
     }
 }
